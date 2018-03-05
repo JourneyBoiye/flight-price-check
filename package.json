@@ -1,0 +1,20 @@
+{
+  "name": "flight-price-check",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A flight price checker through Travel Payouts and IBM functions.",
+  "scripts": {
+    "lint": "eslint .",
+    "build": "webpack --config webpack.config.js",
+    "deploy": "bx wsk action update flights/flight-price-check dist/bundle.js --web true --kind nodejs:8"
+  },
+  "author": "Matias Grioni",
+  "dependencies": {
+    "node-fetch": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "webpack": "^4.1.0",
+    "webpack-cli": "^2.0.10"
+  }
+}
