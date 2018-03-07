@@ -2,9 +2,6 @@ language: node_js
 
 node_js:
   - "8"
-env:
-  node:true
-  mocha:true
 script:
   - npm run lint
   - npm test
