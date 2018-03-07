@@ -25,8 +25,9 @@ function getAvgFlightPrice(token, from, to) {
   return new Promise((resolve, reject) => {
     // Create a promise that resolves with the text of the body from the
     // requested URL.
-    let body = fetch(TRAVEL_PAYOUTS_URL).then(res => res.text())
-                                        .then(body => body);
+    let body = fetch(TRAVEL_PAYOUTS_URL)
+      .then(res => res.text())
+      .then(body => body);
 
     // On getting the response from the flight API, calculate the average flight
     // price and return the size as well. If no flights returned then average is
