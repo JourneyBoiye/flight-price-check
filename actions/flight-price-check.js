@@ -27,30 +27,36 @@ function getAvgFlightPrice(token, from, to) {
     // requested URL.
     let body = fetch(TRAVEL_PAYOUTS_URL)
       .then(res => res.text())
-      .then(body => body);
+      .then(body => body)
+      .catch(error => "");
 
     // On getting the response from the flight API, calculate the average flight
     // price and return the size as well. If no flights returned then average is
     // 0. If there is an error, the error flag is set.
     body.then(function(text) {
-      var resp = JSON.parse(text);
-      var size = 0;
-      var avg = 0;
-      var success = true;
+      let size = 0;
+      let avg = 0;
+      let success = true;
 
-      if ('data' in resp) {
-        success = success && resp.success;
+      if (text !== "") {
+        let resp = JSON.parse(text);
 
-        var flights = resp.data;
-        var sum = 0;
-        size = flights.length;
+        if ('data' in resp) {
+          success = success && resp.success;
 
-        for (let flight of flights) {
-          sum += flight.value;
-        }
+          let flights = resp.data;
+          let sum = 0;
+          size = flights.length;
 
-        if (flights.length > 0) {
-          avg = sum / flights.length;
+          for (let flight of flights) {
+            sum += flight.value;
+          }
+
+          if (flights.length > 0) {
+            avg = sum / flights.length;
+          }
+        } else {
+          success = false;
         }
       } else {
         success = false;
