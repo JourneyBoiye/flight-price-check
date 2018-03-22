@@ -1,7 +1,5 @@
 const assert = require('assert');
-const fetch = require('node-fetch');
-
-//import fetch from 'node-fetch';
+import fetch from 'node-fetch';
 
 /*
  * Gets the average flight price between two countries via the Travel Payouts
@@ -28,7 +26,7 @@ function getAvgFlightPrice(token, from, to) {
     let body = fetch(TRAVEL_PAYOUTS_URL)
       .then(res => res.text())
       .then(body => body)
-      .catch(error => "");
+      .catch(err => "");
 
     // On getting the response from the flight API, calculate the average flight
     // price and return the size as well. If no flights returned then average is
@@ -38,7 +36,7 @@ function getAvgFlightPrice(token, from, to) {
       let avg = 0;
       let success = true;
 
-      if (text !== "") {
+      if (text !== '') {
         let resp = JSON.parse(text);
 
         if ('data' in resp) {
@@ -92,4 +90,4 @@ function main(params) {
 }
 
 global.main = main;
-module.exports = getAvgFlightPrice;
+export { getAvgFlightPrice };
