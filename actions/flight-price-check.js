@@ -69,6 +69,23 @@ function getAvgFlightPrice(token, from, to) {
   });
 }
 
+function concurrentFlightAverages(token, from, tos) {
+  let avgPromises = tos.map(
+    iata => getAvgFlightPrice(token, from, iata)
+  );
+
+  return Promise.all(avgPromises).then(function(avgs) {
+    return {
+      'avgs': avgs
+    };
+  }).catch(function(err) {
+    return {
+      'err': err,
+      'success': false
+    };
+  });
+}
+
 
 /*
  * This function finds the average price for flights between two countries
@@ -82,12 +99,14 @@ function main(params) {
   assert(params.iataFrom, 'params.iataFrom cannot be null');
   assert(params.iataTo, 'params.iataTo cannot be null');
 
-  var travelPayoutsToken = params.travelPayoutsToken;
-  var iataFrom = params.iataFrom;
-  var iataTo = params.iataTo;
+  let travelPayoutsToken = params.travelPayoutsToken;
+  let iataFrom = params.iataFrom;
+  let iataToParam = params.iataTo;
 
-  return getAvgFlightPrice(travelPayoutsToken, iataFrom, iataTo);
+  let iataTos = iataToParam.split(',');
+
+  return concurrentFlightAverages(travelPayoutsToken, iataFrom, iataTos);
 }
 
 global.main = main;
-export { getAvgFlightPrice };
+export { getAvgFlightPrice, concurrentFlightAverages };
